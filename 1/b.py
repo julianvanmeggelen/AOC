@@ -22,7 +22,7 @@ num = {
 
 if __name__ == "__main__":
     res = 0
-    for line in open('1.txt').readlines():
+    for line in open('input.txt').readlines():
         line_digits, search_start= [], 0
         for search_start in range(0,len(line)):
             search_end = search_start
