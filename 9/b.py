@@ -1,9 +1,4 @@
 
-
-
-def get_diff(a: list[int]):
-    return [a-b for a,b in zip(a[1:], a[:-1])]
-
 if __name__ == "__main__":
     lines = open('input.txt').readlines()
     res = 0
