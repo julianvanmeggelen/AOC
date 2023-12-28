@@ -23,13 +23,9 @@ if __name__ == "__main__":
     queue = [curr]
     while queue:
         curr = queue.pop()
-        if curr[0] > len(visited[0])-1 or curr[1] > len(visited)-1 or curr[0] < 0 or curr[1] < 0:
-            continue
-        elif visited[curr[1]][curr[0]] != 0:
-            continue
-        else:
+        if not(curr[0] > len(visited[0])-1 or curr[1] > len(visited)-1 or curr[0] < 0 or curr[1] < 0 or visited[curr[1]][curr[0]] != 0):
             visited[curr[1]][curr[0]] = 1
-        queue+= [(curr[0]+1, curr[1]), (curr[0]-1, curr[1]), (curr[0], curr[1]+1), (curr[0], curr[1]-1)]
+            queue+= [(curr[0]+1, curr[1]), (curr[0]-1, curr[1]), (curr[0], curr[1]+1), (curr[0], curr[1]-1)]
     visited = [[max(row[i], row[i+1]) for i in range(0, len(row), 2)] for row in visited]
     visited = [[max(visited[i][j], visited[i+1][j]) for j in range(len(visited[0]))] for i in range(0, len(visited), 2)]
     print(len(visited) * len(visited[0]) - sum(sum(row) for row in visited))
