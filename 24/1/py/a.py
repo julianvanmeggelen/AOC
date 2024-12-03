@@ -1,0 +1,5 @@
+lines = open("input.txt").readlines()
+left_sorted = sorted(int(line.split()[0]) for line in lines)
+right_sorted = sorted(int(line.split()[1]) for line in lines)
+total_dist = sum(abs(a-b) for a,b in zip(left_sorted, right_sorted))
+print(total_dist)
