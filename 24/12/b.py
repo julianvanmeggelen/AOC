@@ -2,8 +2,8 @@ grid = [line.strip() for line in open('input.txt').readlines()]
 m = len(grid)
 n = len(grid[0])
 
-def get_corners(i, j):
-    NW, W, SW, N, S, NE, E, SE = [
+def get_number_of_corners(i, j):
+    TL, L, BL, T, B, TR, R, BR = [
         (
             i+x in range(m) and 
             j+y in range(n) and 
@@ -14,22 +14,16 @@ def get_corners(i, j):
         if x or y
     ]
     return sum([
-        N and W and not NW, 
-        N and E and not NE, 
-        S and W and not SW, 
-        S and E and not SE, 
-        not (N or W),
-        not (N or E),
-        not (S or W),
-        not (S or E)
+        T and L and not TL, 
+        T and R and not TR, 
+        B and L and not BL, 
+        B and R and not BR, 
+        not (T or L),
+        not (T or R),
+        not (B or L),
+        not (B or R)
     ])
 
-def is_same(i, j, plant):
-    return (
-        i in range(m) and 
-        j in range(n) and 
-        grid[i][j] == plant
-    )
 
 total = 0
 visited = set()
@@ -43,14 +37,37 @@ for i in range(m):
                 i, j = queue.pop()
                 region.add((i, j))
                 for x, y in [(i-1, j), (i, j-1), (i+1, j), (i, j+1)]:
-                    if (is_same(x, y, plant) and
+                    if (
+                        x in range(m) and 
+                        y in range(n) and 
+                        grid[x][y] == plant and
                         (x, y) not in region and
                         (x, y) not in queue
                     ):
                         queue.add((x, y))
+           
+            for x, y in region:
+                TL, L, BL, T, B, TR, R, BR = [
+                    (
+                        x+dx in range(m) and 
+                        y+dy in range(n) and 
+                        grid[x+dx][y+dy] == plant
+                    )
+                    for dx in [-1, 0, 1]
+                    for dy in [-1, 0, 1] 
+                    if dx or dy
+                ]
+                total += sum([
+                    T and L and not TL, 
+                    T and R and not TR, 
+                    B and L and not BL, 
+                    B and R and not BR, 
+                    not (T or L),
+                    not (T or R),
+                    not (B or L),
+                    not (B or R)
+                ]) * len(region)
 
-            corners = sum(get_corners(x, y) for x, y in region)
-            total += corners * len(region)
             visited |= region
 
 print(total)
