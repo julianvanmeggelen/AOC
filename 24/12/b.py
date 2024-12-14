@@ -1,30 +1,6 @@
 grid = [line.strip() for line in open('input.txt').readlines()]
 m = len(grid)
 n = len(grid[0])
-
-def get_number_of_corners(i, j):
-    TL, L, BL, T, B, TR, R, BR = [
-        (
-            i+x in range(m) and 
-            j+y in range(n) and 
-            grid[i+x][j+y] == plant
-        )
-        for x in [-1, 0, 1]
-        for y in [-1, 0, 1] 
-        if x or y
-    ]
-    return sum([
-        T and L and not TL, 
-        T and R and not TR, 
-        B and L and not BL, 
-        B and R and not BR, 
-        not (T or L),
-        not (T or R),
-        not (B or L),
-        not (B or R)
-    ])
-
-
 total = 0
 visited = set()
 for i in range(m):
